@@ -4,11 +4,13 @@
 
 ### Vue
 
-- [vue mixins 让组件显得不再臃肿]('./content/vue-mixins.md')
+- [vue mixins 让组件显得不再臃肿]('https://github.com/zhanghao-zhoushan/blog/blob/master/content/vue-mixins.md')
 
 ### React
 
 ### JavaScript
+
+- [LazyMan](https://github.com/zhanghao-zhoushan/blog/blob/master/content/LazyMan.md)
 
 ### 前端文章集锦
 
