@@ -1,4 +1,4 @@
-class LazyMan {
+class _LazyMan {
   constructor(name) {
     this.tasks = []
     this.subscribe('lazyMan', name)
@@ -90,11 +90,11 @@ class LazyMan {
   }
 }
 
-function lazyMan(name) {
-  return new LazyMan(name)
+function LazyMan(name) {
+  return new _LazyMan(name)
 }
 
-lazyMan('lulu')
+LazyMan('lulu')
   .sleepFirst(5)
   .eat('dinner')
   .eat('supper')
