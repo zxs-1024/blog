@@ -21,4 +21,4 @@
 
 ### Other
 
-- [前端代码规范]('./content/前端代码规范.md')
+- [前端代码规范](https://github.com/zhanghao-zhoushan/blog/blob/master//content/前端代码规范.md)
