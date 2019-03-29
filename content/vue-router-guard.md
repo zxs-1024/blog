@@ -20,7 +20,7 @@ vue-router 提供的导航守卫主要用来通过跳转或取消的方式守卫
 
 导航守卫包括了全局、单个路由、每个组件，有很多功能值得我们去探索。
 
-[导航守卫 | Vue Router][1]
+[导航守卫 | Vue Router](https://router.vuejs.org/zh/guide/advanced/navigation-guards.html#%E5%AF%BC%E8%88%AA%E5%AE%88%E5%8D%AB)
 
 ## 项目实践
 
@@ -87,7 +87,7 @@ getToken 函数引用 js-cookie 库，用来获取 cookie 中的 token 。
 
 我们采用 NProgress.js 轻量级的进度条组件，支持自定义配置。
 
-[NProgress.js][2]
+[NProgress.js](https://github.com/rstacruz/nprogress/)
 
 ```js
 import NProgress from 'nprogress'
@@ -154,11 +154,11 @@ const Foo = {
 
 那么既然 router 的导航守卫这么神奇，那在 vue-router 中是怎么实现的呢？
 
-### [阅读 vuex 源码的思维导图][3]
+### [阅读 vuex 源码的思维导图](https://sailor-1256168624.cos.ap-chengdu.myqcloud.com/blog/vue-router.png)
 
-![阅读 vuex 源码的思维导图][image-1]
+![阅读 vuex 源码的思维导图](https://sailor-1256168624.cos.ap-chengdu.myqcloud.com/blog/vue-router-mini.png)
 
-[vuex 的文档][4]对辅助看源码有不小的帮助，不妨在看源码之前仔细地撸一遍文档。
+[vuex 的文档](https://router.vuejs.org/zh/guide/advanced/navigation-guards.html#%E5%AF%BC%E8%88%AA%E5%AE%88%E5%8D%AB)对辅助看源码有不小的帮助，不妨在看源码之前仔细地撸一遍文档。
 
 ### VueRouter
 
