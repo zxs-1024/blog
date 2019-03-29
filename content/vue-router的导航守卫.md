@@ -1,10 +1,10 @@
 ---
 title: vue-router 的导航守卫实践与解析
-date: '2019-03-17'
+date: '2019-03-28'
 spoiler: vue-router 提供的导航守卫主要用来通过跳转或取消的方式守卫导航。
 ---
 
-## 导航守卫
+# 导航守卫
 
 vue-router 提供的导航守卫主要用来通过跳转或取消的方式守卫导航。有多种机会植入路由导航过程中：全局的, 单个路由独享的, 或者组件级的。
 
@@ -22,11 +22,11 @@ vue-router 提供的导航守卫主要用来通过跳转或取消的方式守卫
 
 [导航守卫 | Vue Router][1]
 
-### 项目实践
+## 项目实践
 
-在项目中我们可以利用全局前置守卫 beforeEach 进行路由验证，，通过全局守卫 beforeEach 和 afterEach 控制进度条打开和关闭，通过路由守卫对单个路由进行处理，通过组件守卫在路由组件进行处理。
+在项目中我们可以利用全局前置守卫 beforeEach 进行路由验证，通过全局守卫 beforeEach 和 afterEach 控制进度条打开和关闭，通过导航守卫对单个路由、组件路由进行处理。
 
-#### 登录验证
+### 登录验证
 
 我们一般用 beforeEach 这个全局前置守卫来做路由跳转前的登录验证。
 
@@ -81,9 +81,9 @@ export function getToken() {
 }
 ```
 
-getToken 函数引用 js-cookie 库，获取 cookie 。
+getToken 函数引用 js-cookie 库，用来获取 cookie 中的 token 。
 
-#### 进度条
+### 进度条
 
 我们采用 NProgress.js 轻量级的进度条组件，支持自定义配置。
 
@@ -108,7 +108,7 @@ router.afterEach(() => {
 
 我们通过在全局后置钩子 beforeEach、全局前置守卫 afterEach 的回调中调用 NProgress 暴露的 start、done 函数，来控制进度条的显示和隐藏。
 
-#### 组件守卫
+### 组件守卫
 
 ```js
 const Foo = {
@@ -148,17 +148,19 @@ const Foo = {
 }
 ```
 
-### 源码解析
+在 /foo/1 和 /foo/2 之间跳转的时候，会调用 `this.searchData()` 函数更新数据。
+
+## 源码解析
 
 那么既然 router 的导航守卫这么神奇，那在 vue-router 中是怎么实现的呢？
 
-#### [阅读 vuex 源码的思维导图][3]
+### [阅读 vuex 源码的思维导图][3]
 
 ![阅读 vuex 源码的思维导图][image-1]
 
 [vuex 的文档][4]对辅助看源码有不小的帮助，不妨在看源码之前仔细地撸一遍文档。
 
-#### VueRouter
+### VueRouter
 
 在 vue-router 的 index.js 中默认导出了 VueRouter 类。
 
@@ -190,7 +192,7 @@ export default class VueRouter {
 
 在 VueRouter 类中申明了 beforeHooks、resolveHooks、afterHooks 数组用来储存全局的导航守卫函数，还申明了 beforeEach、beforeResolve、afterEach 这 3 个全局的导航守卫函数。
 
-在导航守卫函数中都调用了 registerHook 函数：
+在全局导航守卫函数中都调用了 registerHook 函数：
 
 ```js
 function registerHook(list: Array<any>, fn: Function): Function {
@@ -204,11 +206,11 @@ function registerHook(list: Array<any>, fn: Function): Function {
 
 registerHook 函数会将传入的 fn 守卫函数推入对应的守卫函数队列 list，并返回可以删除此 fn 导航守卫的函数。
 
-#### History
+### History
 
 我们先来看看 History 类，在 src/history/base.js 文件。这里主要介绍 2 个核心函数 transitionTo、confirmTransition。
 
-##### 核心函数 transitionTo
+#### 核心函数 transitionTo
  
 transitionTo 是 router 进行跳转的核心函数，我们来看一下它是如何实现的。
 
@@ -288,7 +290,7 @@ PS: afterEach 别没有在迭代函数调用，因此没有传入 next 函数。
 
 在失败回调中会调用中止函数 onAbort。
 
-##### 确认跳转函数 confirmTransition
+#### 确认跳转函数 confirmTransition
 
 confirmTransition 顾名思义，是来确认当前路由是否能够进行跳转，那么在函数内部具体做了哪些事情？
 
@@ -401,7 +403,7 @@ const queue: Array<?NavigationGuard> = [].concat(
 
 合并的顺序分别是组件内的 beforeRouteLeave、全局的 beforeHooks、组件内的 beforeRouteUpdate、组件内的 beforeEnter 以及异步组件的导航守卫函数。
 
-##### 迭代函数 iterator
+#### 迭代函数 iterator
 
 合并 queue 导航守卫任务队列后，申明了 iterator 迭代函数，该函数会作为参数传入 runQueue 方法。
 
@@ -514,13 +516,13 @@ runQueue(queue, iterator, () => {
 
 在 cb 函数中，调用 extractEnterGuards 函数拿到组件 beforeRouteEnter 钩子函数数组 enterGuards，然后与 resolveHooks 全局解析守卫进行合并，得到新的 queue，再次调用 runQueue 函数，最后调用 onComplete 函数，完成路由的跳转。
 
-### 总结
+## 总结
 
-在这里稍微总结下导航守卫，在 vue-router 中通过数组的形式模拟导航守卫任务队列，在 transitionTo 跳转核心函数中调用确认函数 confirmTransition，在 confirmTransition 函数中会递归 queue 导航守卫任务队列，通过传入 next 函数的参数来判断是否继续执行导航守卫任务。
+在这里稍微总结下导航守卫，在 vue-router 中通过数组的形式模拟导航守卫任务队列，在 transitionTo 跳转核心函数中调用确认函数 confirmTransition，在 confirmTransition 函数中会递归 queue 导航守卫任务队列，通过传入 next 函数的参数来判断是否继续执行导航守卫任务，如果 queue 任务全部执行完成，进行路由跳转。
 
-感觉 vue-router 中提供的各种导航钩子，让我们能够灵活地处理路由的进入、离开、更新。
+感谢 vue-router 中提供的各种导航钩子，让我们能够灵活地控制、处理路由。
 
-#### 导航守卫的执行顺序
+### 导航守卫的执行顺序
 
 例如从 / Home 页面跳转到 /foo，导航守卫执行顺序大概是这样的。
 
@@ -541,10 +543,3 @@ in-component Foo beforeRouteUpdate hook
 in-global beforeResolve hook
 in-global afterEach hook
 ```
-
-[1]:	https://router.vuejs.org/zh/guide/advanced/navigation-guards.html#%E5%AF%BC%E8%88%AA%E5%AE%88%E5%8D%AB
-[2]:	https://github.com/rstacruz/nprogress/
-[3]:	https://sailor-1256168624.cos.ap-chengdu.myqcloud.com/blog/vue-router.png
-[4]:	https://router.vuejs.org/zh/guide/advanced/navigation-guards.html#%E5%AF%BC%E8%88%AA%E5%AE%88%E5%8D%AB
-
-[image-1]:	https://sailor-1256168624.cos.ap-chengdu.myqcloud.com/blog/vue-router-mini.png
