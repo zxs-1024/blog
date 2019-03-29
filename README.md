@@ -5,7 +5,7 @@
 ### Vue
 
 - [vue mixins 让组件显得不再臃肿](https://github.com/zhanghao-zhoushan/blog/blob/master/content/vue-mixins.md)
-- [vue-router 的导航守卫](https://github.com/zhanghao-zhoushan/blog/blob/master/content/vue-router的导航守卫.md)
+- [vue-router 的导航守卫](https://github.com/zhanghao-zhoushan/blog/blob/master/content/vue-router-guard.md)
 
 ### React
 
@@ -21,4 +21,4 @@
 
 ### Other
 
-- [前端代码规范](https://github.com/zhanghao-zhoushan/blog/blob/master//content/前端代码规范.md)
+- [前端代码规范](https://github.com/zhanghao-zhoushan/blog/blob/master//content/javascript-standard.md)
