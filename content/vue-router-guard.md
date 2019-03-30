@@ -16,7 +16,9 @@ vue-router 提供的导航守卫主要用来通过跳转或取消的方式守卫
 - 组件更新钩子 beforeRouteUpdate
 - 组件后置钩子 beforeRouteLeave
 
-导航守卫包括了全局、单个路由、每个组件，有很多功能值得我们去探索。
+`vue-router` 能够在全局、单个路由、单个组件内增加导航守卫，对于路由事件的处理非常灵活。
+
+beforeResolve、beforeResolve、beforeRouteEnter、beforeRouteLeave 这几个导航守卫，个人在项目中还没有特别好的实践，希望小伙伴们在评论区留下你的想法。
 
 [导航守卫 | Vue Router](https://router.vuejs.org/zh/guide/advanced/navigation-guards.html#%E5%AF%BC%E8%88%AA%E5%AE%88%E5%8D%AB)
 
@@ -111,26 +113,26 @@ router.afterEach(() => {
 ```js
 const Foo = {
   template: `...`,
-  created () {
+  created() {
     console.log('this is created')
-	this.searchData()
+    this.searchData()
   },
-  mounted () {
+  mounted() {
     console.log('this is mounted')
   },
-  updated () {
+  updated() {
     console.log('this is updated')
   },
-  destroyed () {
+  destroyed() {
     console.log('this is destroyed')
   },
-  beforeRouteUpdate (to, from, next) {
-   next()
+  beforeRouteUpdate(to, from, next) {
+    next()
   }
 }
 ```
 
-带有动态参数的路径 /foo/:id，在 /foo/1 和 /foo/2 之间跳转的时候，由于会渲染同样的 Foo 组件，因此组件实例会被复用。此时组件内的生命周期 created、mounted、destroyed 均不会执行，只有 updated 钩子会执行，在 vue 文档中这样解释:
+带有动态参数的路径 /foo/:id，在 /foo/1 和 /foo/2 之间跳转的时候，由于会渲染同样的 Foo 组件，因此组件实例会被复用。此时组件内的生命周期 created、mounted、destroyed、updated均不会执行，在 vue 文档中这样解释:
 
 > 由于数据更改导致的虚拟 DOM 重新渲染和打补丁，在这之后会调用该钩子。
 
@@ -139,9 +141,9 @@ const Foo = {
 ```js
 const Foo = {
   template: `...`,
-  beforeRouteUpdate (to, from, next) {
-  this.searchData()
-   next()
+  beforeRouteUpdate(to, from, next) {
+    this.searchData()
+    next()
   }
 }
 ```
@@ -209,7 +211,7 @@ registerHook 函数会将传入的 fn 守卫函数推入对应的守卫函数队
 我们先来看看 History 类，在 src/history/base.js 文件。这里主要介绍 2 个核心函数 transitionTo、confirmTransition。
 
 #### 核心函数 transitionTo
- 
+
 transitionTo 是 router 进行跳转的核心函数，我们来看一下它是如何实现的。
 
 ```js
@@ -282,9 +284,10 @@ updateRoute (route: Route) {
 }
 ```
 
-updateRoute 函数会更新当前 route，并遍历执行通过全局后置钩子 afterEach 推入 afterHooks 队列的导全局后置钩子函数。
+updateRoute 函数会更新当前 route，并遍历执行全局后置钩子函数 afterHooks 队列，是通过
+router 暴露的 afterEach 函数推入的。
 
-PS: afterEach 别没有在迭代函数调用，因此没有传入 next 函数。 
+PS: afterEach 别没有在迭代函数调用，因此没有传入 next 函数。
 
 在失败回调中会调用中止函数 onAbort。
 
@@ -352,7 +355,9 @@ export class History {
 const abort = err => {
   if (isError(err)) {
     if (this.errorCbs.length) {
-      this.errorCbs.forEach(cb => { cb(err) })
+      this.errorCbs.forEach(cb => {
+        cb(err)
+      })
     } else {
       warn(false, 'uncaught error during route navigation:')
       console.error(err)
@@ -367,11 +372,10 @@ abort 函数接收 err 参数，如果传入了 err 会执行 this.errorCbs 推�
 接着会判断当前路由与跳转路由是否相同，如果相同，返回并执行中止函数 abort。
 
 ```js
-const {
-  updated,
-  deactivated,
-  activated
-} = resolveQueue(this.current.matched, route.matched)
+const { updated, deactivated, activated } = resolveQueue(
+  this.current.matched,
+  route.matched
+)
 ```
 
 这里会调用 resolveQueue 函数，将当前的 matched 与跳转的 matched 进行比较，matched 是在 src/util/route.js 中 createRoute 函数中增加，用数组的形式记录当前 route 以及它的上级 route。
@@ -422,10 +426,8 @@ const iterator = (hook: NavigationGuard, next) => {
         abort(to)
       } else if (
         typeof to === 'string' ||
-        (typeof to === 'object' && (
-          typeof to.path === 'string' ||
-          typeof to.name === 'string'
-        ))
+        (typeof to === 'object' &&
+          (typeof to.path === 'string' || typeof to.name === 'string'))
       ) {
         // 传入了 url 进行路由跳转
         // next('/') or next({ path: '/' }) -> redirect
@@ -447,7 +449,6 @@ const iterator = (hook: NavigationGuard, next) => {
 }
 ```
 
-
 iterator 迭代函数接收 hook 函数、next 回调作为参数，在函数内部会用 try catch 包裹 hook 函数的调用，这里就是我们执行导航守卫函数的地方，传入了 route、current，以及 next 回调。
 
 在 next 回调中， 会对传入的 to 参数进行判断，分别处理，最后的 next(to) 调用的是 runQueue 中的
@@ -460,12 +461,16 @@ fn(queue[index], () => {
 
 这样会继续调用下一个导航守卫。
 
-#### 递归调用任务队列  runQueue
+#### 递归调用任务队列 runQueue
 
 ```js
 /* @flow */
 // 从第一个开始，递归调用任务队列
-export function runQueue (queue: Array<?NavigationGuard>, fn: Function, cb: Function) {
+export function runQueue(
+  queue: Array<?NavigationGuard>,
+  fn: Function,
+  cb: Function
+) {
   const step = index => {
     if (index >= queue.length) {
       cb()
@@ -503,7 +508,9 @@ runQueue(queue, iterator, () => {
     onComplete(route)
     if (this.router.app) {
       this.router.app.$nextTick(() => {
-        postEnterCbs.forEach(cb => { cb() })
+        postEnterCbs.forEach(cb => {
+          cb()
+        })
       })
     }
   })
@@ -522,9 +529,91 @@ runQueue(queue, iterator, () => {
 
 ### 导航守卫的执行顺序
 
-例如从 / Home 页面跳转到 /foo，导航守卫执行顺序大概是这样的。
+例如从 `/` Home 页面跳转到 `/foo` Foo，导航守卫执行顺序大概是这样的。
+
+**全局导航守卫**
 
 ```js
+router.beforeEach((to, from, next) => {
+  console.log('in-global beforeEach hook')
+  next()
+})
+
+router.beforeResolve((to, from, next) => {
+  console.log('in-global beforeResolve hook')
+  next()
+})
+
+router.afterEach((to, from) => {
+  console.log('in-global afterEach hook')
+})
+```
+
+**组件导航守卫**
+
+```js
+const Home = {
+  template: '<div>home</div>',
+  beforeRouteEnter(to, from, next) {
+    console.log('in-component Home beforeRouteEnter hook')
+    next()
+  },
+  beforeRouteUpdate(to, from, next) {
+    console.log('in-component Home beforeRouteUpdate hook')
+    next()
+  },
+  beforeRouteLeave(to, from, next) {
+    console.log('in-component Home beforeRouteLeave hook')
+    next()
+  }
+}
+
+const Foo = {
+  template: '<div>foo</div>',
+  beforeRouteEnter(to, from, next) {
+    console.log('in-component Foo beforeRouteEnter hook')
+    next()
+  },
+  beforeRouteUpdate(to, from, next) {
+    console.log('in-component Foo beforeRouteUpdate hook')
+    next()
+  },
+  beforeRouteLeave(to, from, next) {
+    console.log('in-component Foo beforeRouteLeave hook')
+    next()
+  }
+}
+```
+
+**路由导航守卫**
+
+```js
+const router = new VueRouter({
+  mode: 'history',
+  routes: [
+    {
+      path: '/',
+      component: Home,
+      beforeEnter: function guardRoute(to, from, next) {
+        console.log('in-router Home beforeEnter hook')
+        next()
+      }
+    },
+    {
+      path: '/foo',
+      component: Foo,
+      beforeEnter: function guardRoute(to, from, next) {
+        console.log('in-router Foo beforeEnter hook')
+        next()
+      }
+    }
+  ]
+})
+```
+
+**输出**
+
+```bash
 in-component Home beforeRouteLeave hook
 in-global beforeEach hook
 in-router Foo beforeEnter hook
@@ -535,7 +624,58 @@ in-global afterEach hook
 
 在当前路由改变，但是该组件被复用时调用，举例来说，对于一个带有动态参数的路径 /foo/:id，在 /foo/1 和 /foo/2 之间跳转的时候，由于会渲染同样的 Foo 组件，因此组件实例会被复用。beforeRouteUpdate 钩子就会在这个情况下被调用。
 
+**组件导航守卫**
+
 ```js
+const Foo = {
+  template: `<div>Foo</div>`,
+  created () {
+    console.log('this is Foo created')
+  },
+  mounted () {
+    console.log('this is Foo mounted')
+  },
+  updated () {
+    console.log('this is Foo updated')
+  },
+  destroyed () {
+    console.log('this is Foo destroyed')
+  },
+  beforeRouteEnter (to, from, next) {
+    console.log('in-component Foo beforeRouteEnter hook')
+    next()
+  },
+  beforeRouteUpdate (to, from, next) {
+    console.log('in-component Foo beforeRouteUpdate hook')
+    next()
+  },
+  beforeRouteLeave (to, from, next) {
+    console.log('in-component Foo beforeRouteLeave hook')
+    next()
+  }
+}
+```
+
+**路由导航守卫**
+
+```js
+const router = new VueRouter({
+  mode: 'history',
+  routes: [
+    // in-component beforeRouteUpdate hook
+    { path: '/foo/:id', component: Foo,
+      beforeEnter: function guardRoute (to, from, next) {
+        console.log('in-router Foo beforeEnter hook')
+        next()
+      }
+    }
+  ]
+})
+```
+
+**输出**
+
+```bash
 in-global beforeEach hook
 in-component Foo beforeRouteUpdate hook
 in-global beforeResolve hook
