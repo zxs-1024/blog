@@ -4,7 +4,7 @@ date: '2019-03-28'
 spoiler: vue-router 提供的导航守卫主要用来通过跳转或取消的方式守卫导航。
 ---
 
-vue-router 提供的导航守卫主要用来通过跳转或取消的方式守卫导航。有多种机会植入路由导航过程中：全局的, 单个路由独享的, 或者组件级的。
+`vue-router` 提供的导航守卫主要用来通过跳转或取消的方式守卫导航。我们能够在全局、单个路由、单个组件内增加导航守卫，对于路由事件的处理非常灵活。
 
 导航守卫有以下几种：
 
@@ -16,11 +16,9 @@ vue-router 提供的导航守卫主要用来通过跳转或取消的方式守卫
 - 组件更新钩子 beforeRouteUpdate
 - 组件后置钩子 beforeRouteLeave
 
-`vue-router` 能够在全局、单个路由、单个组件内增加导航守卫，对于路由事件的处理非常灵活。
-
 beforeResolve、beforeResolve、beforeRouteEnter、beforeRouteLeave 这几个导航守卫，个人在项目中还没有特别好的实践，希望小伙伴们在评论区留下你的想法。
 
-[导航守卫 | Vue Router](https://router.vuejs.org/zh/guide/advanced/navigation-guards.html#%E5%AF%BC%E8%88%AA%E5%AE%88%E5%8D%AB)
+[导航守卫 | Vue Router][1]
 
 ## 项目实践
 
@@ -81,13 +79,13 @@ export function getToken() {
 }
 ```
 
-getToken 函数引用 js-cookie 库，用来获取 cookie 中的 token 。
+**PS: getToken 函数引用 `js-cookie` 库，用来获取 cookie 中的 token 。**
 
 ### 进度条
 
-我们采用 NProgress.js 轻量级的进度条组件，支持自定义配置。
+我们采用 `NProgress.js` 轻量级的进度条组件，支持自定义配置。
 
-[NProgress.js](https://github.com/rstacruz/nprogress/)
+[NProgress.js][2]
 
 ```js
 import NProgress from 'nprogress'
@@ -132,9 +130,9 @@ const Foo = {
 }
 ```
 
-带有动态参数的路径 /foo/:id，在 /foo/1 和 /foo/2 之间跳转的时候，由于会渲染同样的 Foo 组件，因此组件实例会被复用。此时组件内的生命周期 created、mounted、destroyed、updated均不会执行，在 vue 文档中这样解释:
+带有动态参数的路径 `/foo/:id`，在 `/foo/1` 和 `/foo/2` 之间跳转的时候，由于会渲染同样的 Foo 组件，因此组件实例会被复用。此时组件内的生命周期 created、mounted、destroyed、updated 均不会执行。
 
-> 由于数据更改导致的虚拟 DOM 重新渲染和打补丁，在这之后会调用该钩子。
+在 vue 文档中这样解释: _由于数据更改导致的虚拟 DOM 重新渲染和打补丁，在这之后会调用该钩子。_
 
 但是我们只想监听路由变化呢，那么就得用到 beforeRouteUpdate 组件导航守卫。
 
@@ -148,21 +146,21 @@ const Foo = {
 }
 ```
 
-在 /foo/1 和 /foo/2 之间跳转的时候，会调用 `this.searchData()` 函数更新数据。
+在 `/foo/1` 和 `/foo/2` 之间跳转的时候，会调用 `this.searchData()` 函数更新数据。
 
 ## 源码解析
 
-那么既然 router 的导航守卫这么神奇，那在 vue-router 中是怎么实现的呢？
+那么既然 router 的导航守卫这么神奇，那在 `vue-router` 中是怎么实现的呢？
 
-### [阅读 vuex 源码的思维导图](https://sailor-1256168624.cos.ap-chengdu.myqcloud.com/blog/vue-router.png)
+### [阅读 vuex 源码的思维导图][3]
 
-![阅读 vuex 源码的思维导图](https://sailor-1256168624.cos.ap-chengdu.myqcloud.com/blog/vue-router-mini.png)
+![阅读 vuex 源码的思维导图][image-1]
 
-[vuex 的文档](https://router.vuejs.org/zh/guide/advanced/navigation-guards.html#%E5%AF%BC%E8%88%AA%E5%AE%88%E5%8D%AB)对辅助看源码有不小的帮助，不妨在看源码之前仔细地撸一遍文档。
+[vuex 的文档][4]对辅助看源码有不小的帮助，不妨在看源码之前仔细地撸一遍文档。
 
 ### VueRouter
 
-在 vue-router 的 index.js 中默认导出了 VueRouter 类。
+在 `vue-router` 的 `index.js` 中默认导出了 VueRouter 类。
 
 ```js
 export default class VueRouter {
@@ -192,7 +190,7 @@ export default class VueRouter {
 
 在 VueRouter 类中申明了 beforeHooks、resolveHooks、afterHooks 数组用来储存全局的导航守卫函数，还申明了 beforeEach、beforeResolve、afterEach 这 3 个全局的导航守卫函数。
 
-在全局导航守卫函数中都调用了 registerHook 函数：
+在这 3 个全局导航守卫函数中都调用了 registerHook 函数：
 
 ```js
 function registerHook(list: Array<any>, fn: Function): Function {
@@ -208,7 +206,7 @@ registerHook 函数会将传入的 fn 守卫函数推入对应的守卫函数队
 
 ### History
 
-我们先来看看 History 类，在 src/history/base.js 文件。这里主要介绍 2 个核心函数 transitionTo、confirmTransition。
+我们先来看看 History 类，在 `src/history/base.js` 文件。这里主要介绍 2 个核心函数 transitionTo、confirmTransition。
 
 #### 核心函数 transitionTo
 
@@ -284,10 +282,10 @@ updateRoute (route: Route) {
 }
 ```
 
-updateRoute 函数会更新当前 route，并遍历执行全局后置钩子函数 afterHooks 队列，是通过
+updateRoute 函数会更新当前 route，并遍历执行全局后置钩子函数 afterHooks 队列，该队列是通过
 router 暴露的 afterEach 函数推入的。
 
-PS: afterEach 别没有在迭代函数调用，因此没有传入 next 函数。
+**PS: afterEach 别没有在迭代函数调用，因此没有传入 next 函数。**
 
 在失败回调中会调用中止函数 onAbort。
 
@@ -378,7 +376,7 @@ const { updated, deactivated, activated } = resolveQueue(
 )
 ```
 
-这里会调用 resolveQueue 函数，将当前的 matched 与跳转的 matched 进行比较，matched 是在 src/util/route.js 中 createRoute 函数中增加，用数组的形式记录当前 route 以及它的上级 route。
+这里会调用 resolveQueue 函数，将当前的 matched 与跳转的 matched 进行比较，matched 是在 `src/util/route.js` 中 createRoute 函数中增加，用数组的形式记录当前 route 以及它的上级 route。
 
 resolveQueue 函数主要用来做新旧对比，通过遍历 matched 数组，比较后返回需要更新、激活、卸载 3 种路由状态的数组。
 
@@ -451,7 +449,7 @@ const iterator = (hook: NavigationGuard, next) => {
 
 iterator 迭代函数接收 hook 函数、next 回调作为参数，在函数内部会用 try catch 包裹 hook 函数的调用，这里就是我们执行导航守卫函数的地方，传入了 route、current，以及 next 回调。
 
-在 next 回调中， 会对传入的 to 参数进行判断，分别处理，最后的 next(to) 调用的是 runQueue 中的
+在 next 回调中， 会对传入的 to 参数进行判断，分别处理，最后的 next(to) 调用的是 runQueue 中的：
 
 ```js
 fn(queue[index], () => {
@@ -525,11 +523,13 @@ runQueue(queue, iterator, () => {
 
 在这里稍微总结下导航守卫，在 vue-router 中通过数组的形式模拟导航守卫任务队列，在 transitionTo 跳转核心函数中调用确认函数 confirmTransition，在 confirmTransition 函数中会递归 queue 导航守卫任务队列，通过传入 next 函数的参数来判断是否继续执行导航守卫任务，如果 queue 任务全部执行完成，进行路由跳转。
 
-感谢 vue-router 中提供的各种导航钩子，让我们能够灵活地控制、处理路由。
+感谢 `vue-router` 中提供的各种导航钩子，让我们能够更加灵活地控制、处理路由。
 
 ### 导航守卫的执行顺序
 
-例如从 `/` Home 页面跳转到 `/foo` Foo，导航守卫执行顺序大概是这样的。
+#### 一般路由跳转
+
+例如从 `/` _Home_ 页面跳转到 `/foo` _Foo_，导航守卫执行顺序大概是这样的。
 
 **全局导航守卫**
 
@@ -622,34 +622,36 @@ in-global beforeResolve hook
 in-global afterEach hook
 ```
 
-在当前路由改变，但是该组件被复用时调用，举例来说，对于一个带有动态参数的路径 /foo/:id，在 /foo/1 和 /foo/2 之间跳转的时候，由于会渲染同样的 Foo 组件，因此组件实例会被复用。beforeRouteUpdate 钩子就会在这个情况下被调用。
+#### 组件复用的情况
+
+在当前路由改变，但是该组件被复用时调用，举例来说，对于一个带有动态参数的路径 `/foo/:id`，在 `/foo/1` 和 `/foo/2` 之间跳转的时候，由于会渲染同样的 Foo 组件，因此组件实例会被复用。beforeRouteUpdate 钩子就会在这个情况下被调用。
 
 **组件导航守卫**
 
 ```js
 const Foo = {
   template: `<div>Foo</div>`,
-  created () {
+  created() {
     console.log('this is Foo created')
   },
-  mounted () {
+  mounted() {
     console.log('this is Foo mounted')
   },
-  updated () {
+  updated() {
     console.log('this is Foo updated')
   },
-  destroyed () {
+  destroyed() {
     console.log('this is Foo destroyed')
   },
-  beforeRouteEnter (to, from, next) {
+  beforeRouteEnter(to, from, next) {
     console.log('in-component Foo beforeRouteEnter hook')
     next()
   },
-  beforeRouteUpdate (to, from, next) {
+  beforeRouteUpdate(to, from, next) {
     console.log('in-component Foo beforeRouteUpdate hook')
     next()
   },
-  beforeRouteLeave (to, from, next) {
+  beforeRouteLeave(to, from, next) {
     console.log('in-component Foo beforeRouteLeave hook')
     next()
   }
@@ -663,8 +665,10 @@ const router = new VueRouter({
   mode: 'history',
   routes: [
     // in-component beforeRouteUpdate hook
-    { path: '/foo/:id', component: Foo,
-      beforeEnter: function guardRoute (to, from, next) {
+    {
+      path: '/foo/:id',
+      component: Foo,
+      beforeEnter: function guardRoute(to, from, next) {
         console.log('in-router Foo beforeEnter hook')
         next()
       }
@@ -681,3 +685,9 @@ in-component Foo beforeRouteUpdate hook
 in-global beforeResolve hook
 in-global afterEach hook
 ```
+
+[1]: https://router.vuejs.org/zh/guide/advanced/navigation-guards.html#%E5%AF%BC%E8%88%AA%E5%AE%88%E5%8D%AB
+[2]: https://github.com/rstacruz/nprogress/
+[3]: https://sailor-1256168624.cos.ap-chengdu.myqcloud.com/blog/vue-router.png
+[4]: https://router.vuejs.org/zh/guide/advanced/navigation-guards.html#%E5%AF%BC%E8%88%AA%E5%AE%88%E5%8D%AB
+[image-1]: https://sailor-1256168624.cos.ap-chengdu.myqcloud.com/blog/vue-router-mini.png
