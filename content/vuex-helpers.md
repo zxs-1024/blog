@@ -4,6 +4,8 @@ date: '2019-04-08'
 spoiler: 在 vuex 中提供了几个辅助函数来帮助我们减少代码的重复和冗余。
 ---
 
+# vuex 辅助工具函数的实践
+
 Vuex 是一个专为 Vue.js 应用程序开发的*状态管理模式*。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。
 
 在 vuex 中提供了几个辅助函数来帮助我们减少代码的重复和冗余，就是让我们少些点代码。
@@ -185,7 +187,7 @@ export default {
 
 为了让小伙伴们对项目更加直观，写了个小 Demo:
 
-[github | vue-help](https://github.com/zhanghao-zhoushan/vue-helpers) 
+[github | vue-help](https://github.com/zhanghao-zhoushan/vue-helpers)
 [vue-help Example 🌰](https://zhanghao-zhoushan.github.io/vue-helpers/dist/index.html#/store)
 
 ### 结合 minxins
@@ -200,8 +202,17 @@ export default {
 <div>
   <p>{{permissions}}</p>
 
-  <el-button type="primary" v-if="checkPermission('vuex-helpers:permissionsButton:update')" @click="updatePermissions">更新权限</el-button>
-  <el-button type="danger" :disabled="!checkPermission('vuex-helpers:permissionsButton:reset')">修改权限</el-button>
+  <el-button
+    type="primary"
+    v-if="checkPermission('vuex-helpers:permissionsButton:update')"
+    @click="updatePermissions"
+    >更新权限</el-button
+  >
+  <el-button
+    type="danger"
+    :disabled="!checkPermission('vuex-helpers:permissionsButton:reset')"
+    >修改权限</el-button
+  >
 </div>
 ```
 
@@ -503,7 +514,7 @@ export const mapMutations = normalizeNamespace((namespace, mutations) => {
 
 mapMutations 处理过程与 mapState 相似，我看来看看传入 normalizeNamespace 的回调函数。
 
-首先也是申明 res 空对象，经过 normalizeMap 函数处理后的 mutations 调用 forEach 循环处理，在 forEach 的回调函数中， 使用解构取出 key 和 value，每一次循环就以 key 为键、mappedMutation 函数为 value 存入 res 对象， 在 mappedMutation 函数中，声明 commit 变量保存 this.$store.commit 。
+首先也是申明 res 空对象，经过 normalizeMap 函数处理后的 mutations 调用 forEach 循环处理，在 forEach 的回调函数中， 使用解构取出 key 和 value，每一次循环就以 key 为键、mappedMutation 函数为 value 存入 res 对象， 在 mappedMutation 函数中，声明 commit 变量保存 this.\$store.commit 。
 
 判断传入的 namespace，如果有 namespace 就调用 getModuleByNamespace 函数搜索对应模块，如果没有搜索到就 return，有对应模块的话对应模块的将 commit 赋值给声明的 commit 变量。
 
@@ -551,7 +562,6 @@ export const mapGetters = normalizeNamespace((namespace, getters) => {
   return res
 })
 ```
-
 
 我看来看看传入 normalizeNamespace 的回调函数。
 
