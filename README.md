@@ -12,7 +12,7 @@
 
 ### JavaScript
 
-- [LazyMan](https://github.com/zhanghao-zhoushan/blog/blob/master/content/LazyMan.js)
+- [LazyMan 的两种实现](https://github.com/zhanghao-zhoushan/blog/blob/master/content/LazyMan.md)
 
 ### 前端文章集锦
 
