@@ -1,10 +1,10 @@
 ---
-title: vuex 辅助工具函数的实践
+title: vuex 辅助工具函数的实践与解析
 date: '2019-04-08'
 spoiler: 在 vuex 中提供了几个辅助函数来帮助我们减少代码的重复和冗余。
 ---
 
-# vuex 辅助工具函数的实践
+# vuex 辅助工具函数的实践与解析
 
 Vuex 是一个专为 Vue.js 应用程序开发的*状态管理模式*。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。
 
@@ -12,7 +12,9 @@ Vuex 是一个专为 Vue.js 应用程序开发的*状态管理模式*。它采�
 
 **PS: 文章辅助函数介绍部分内容引用 [Vuex 文档][1]。**
 
-## mapState 辅助函数
+## 辅助函数介绍
+
+### mapState 辅助函数
 
 由于 Vuex 的状态存储是响应式的，从 store 实例中读取状态最简单的方法就是在计算属性中返回某个状态：
 
@@ -92,7 +94,7 @@ mapGetters({
 })
 ```
 
-## mapMutations 辅助函数
+### mapMutations 辅助函数
 
 你可以在组件中使用 `this.$store.commit('xxx')` 提交 mutation，或者使用 mapMutations 辅助函数将组件中的 methods 映射为 `store.commit` 调用（需要在根节点注入 store）。
 
@@ -115,7 +117,7 @@ export default {
 }
 ```
 
-## mapActions 辅助函数
+### mapActions 辅助函数
 
 你在组件中使用 `this.$store.dispatch('xxx')` 分发 action，或者使用 mapActions 辅助函数将组件的 methods 映射为 `store.dispatch` 调用（需要先在根节点注入 store）：
 
@@ -138,7 +140,7 @@ export default {
 }
 ```
 
-## createNamespacedHelpers 辅助函数
+### createNamespacedHelpers 辅助函数
 
 你可以通过使用 createNamespacedHelpers 创建基于某个命名空间辅助函数。它返回一个对象，对象里有新的绑定在给定命名空间值上的组件绑定辅助函数：
 
