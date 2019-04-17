@@ -10,9 +10,7 @@ Vuex 是一个专为 Vue.js 应用程序开发的*状态管理模式*。它采�
 
 在 vuex 中提供了几个辅助函数来帮助我们减少代码的重复和冗余，就是让我们少些点代码。
 
-[Vuex 文档](https://vuex.vuejs.org/zh/)
-
-PS: 文章部分内容借用 Vuex 文档。
+**PS: 文章辅助函数介绍部分内容引用 [Vuex 文档][1]。**
 
 ## mapState 辅助函数
 
@@ -181,14 +179,12 @@ export default {
     ├── actions.js        # 根级别的 action
     ├── mutations.js      # 根级别的 mutation
     └── modules
-        ├── cart.js       # 购物车模块
-        └── products.js   # 产品模块
+        ├── user.js       # 用户信息模块
+        └── config.js     # 配置模块
+        └── permission.js # 权限模块
 ```
 
-为了让小伙伴们对项目更加直观，写了个小 Demo:
-
-[github | vue-help](https://github.com/zhanghao-zhoushan/vue-helpers)
-[vue-help Example 🌰](https://zhanghao-zhoushan.github.io/vue-helpers/dist/index.html#/store)
+为了让小伙伴们对项目更加直观，写了个小 Demo [Github | vue-help][2]，也可以访问 [Github Page | vue-help Example 🌰][3]。
 
 ### 结合 minxins
 
@@ -196,7 +192,7 @@ export default {
 
 #### html :
 
-在页面调用 checkPermission 方法，如果没有权限，则返回 false，对应 html 不渲染。
+在页面调用 checkPermission 方法，如果没有权限，则返回 false，对应的 html 不渲染。
 
 ```html
 <div>
@@ -218,7 +214,7 @@ export default {
 
 #### javascript :
 
-在 javascript 中引入 checkPermissionMixin。
+在 javascript 中引入 checkPermissionMixin:
 
 ```js
 import checkPermissionMixin from '../mixins/checkPermissionMixin'
@@ -235,7 +231,7 @@ export default {
 
 #### checkPermissionMixin :
 
-在 checkPermissionMixin 使用辅助函数，获取权利列表，并申明 checkPermission 检测权限的函数。
+在 checkPermissionMixin 中调用辅助工具函数，获取权限列表，并申明 checkPermission 检测权限的函数。
 
 ```js
 import { mapState, mapGetters, mapActions } from 'vuex'
@@ -672,3 +668,7 @@ export default {
 简化了重复写入命名空间。
 
 到此 `helpers.js` 结束。
+
+[1]:	https://vuex.vuejs.org/zh/
+[2]:	https://github.com/zhanghao-zhoushan/vue-helpers
+[3]:	https://zhanghao-zhoushan.github.io/vue-helpers/dist/index.html#/store
