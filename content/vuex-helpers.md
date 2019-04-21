@@ -10,11 +10,11 @@ Vuex 是一个专为 Vue.js 应用程序开发的*状态管理模式*。它采�
 
 在 vuex 中提供了几个辅助函数来帮助我们减少代码的重复和冗余。
 
-**PS: 文章辅助函数介绍部分内容引用 [Vuex 文档][1]。**
+**PS: 文章辅助函数介绍部分内容引用 [Vuex 文档](https://vuex.vuejs.org/zh/)。**
 
 ## 辅助函数介绍
 
-### mapState 辅助函数
+### mapState
 
 由于 Vuex 的状态存储是响应式的，从 store 实例中读取状态最简单的方法就是在计算属性中返回某个状态：
 
@@ -65,7 +65,7 @@ computed: {
 }
 ```
 
-## mapGetters 辅助函数
+### mapGetters
 
 mapGetters 辅助函数仅仅是将 store 中的 getter 映射到局部计算属性：
 
@@ -94,7 +94,7 @@ mapGetters({
 })
 ```
 
-### mapMutations 辅助函数
+### mapMutations
 
 你可以在组件中使用 `this.$store.commit('xxx')` 提交 mutation，或者使用 mapMutations 辅助函数将组件中的 methods 映射为 `store.commit` 调用（需要在根节点注入 store）。
 
@@ -117,7 +117,7 @@ export default {
 }
 ```
 
-### mapActions 辅助函数
+### mapActions
 
 你在组件中使用 `this.$store.dispatch('xxx')` 分发 action，或者使用 mapActions 辅助函数将组件的 methods 映射为 `store.dispatch` 调用（需要先在根节点注入 store）：
 
@@ -140,7 +140,7 @@ export default {
 }
 ```
 
-### createNamespacedHelpers 辅助函数
+### createNamespacedHelpers
 
 你可以通过使用 createNamespacedHelpers 创建基于某个命名空间辅助函数。它返回一个对象，对象里有新的绑定在给定命名空间值上的组件绑定辅助函数：
 
@@ -186,7 +186,9 @@ export default {
         └── permission.js # 权限模块
 ```
 
-为了让小伙伴们对项目更加直观，写了个小 Demo [Github | vue-help][2]，也可以访问 [Github Page | vue-help Example 🌰][3]。
+### vue-help Example 🌰
+
+为了让小伙伴们对项目更加直观，写了个小 Demo [Github | vue-helps](https://github.com/zhanghao-zhoushan/vue-helpers)，也可以访问 [Github Page | vue-helps Example 🌰](https://zhanghao-zhoushan.github.io/vue-helpers/dist/index.html#/store)。
 
 ### 结合 minxins
 
@@ -231,7 +233,7 @@ export default {
 }
 ```
 
-#### checkPermissionMixin :
+**checkPermissionMixin :**
 
 在 checkPermissionMixin 中调用辅助工具函数，获取权限列表，并申明 checkPermission 检测权限的函数。
 
@@ -670,7 +672,3 @@ export default {
 简化了重复写入命名空间。
 
 到此 `helpers.js` 结束。
-
-[1]: https://vuex.vuejs.org/zh/
-[2]: https://github.com/zhanghao-zhoushan/vue-helpers
-[3]: https://zhanghao-zhoushan.github.io/vue-helpers/dist/index.html#/store
