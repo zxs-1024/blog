@@ -8,7 +8,7 @@ spoiler: 在 vuex 中提供了几个辅助函数来帮助我们减少代码的�
 
 Vuex 是一个专为 Vue.js 应用程序开发的*状态管理模式*。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。
 
-在 vuex 中提供了几个辅助函数来帮助我们减少代码的重复和冗余，就是让我们少些点代码。
+在 vuex 中提供了几个辅助函数来帮助我们减少代码的重复和冗余。
 
 **PS: 文章辅助函数介绍部分内容引用 [Vuex 文档][1]。**
 
@@ -192,7 +192,7 @@ export default {
 
 我们可以将可以复用的部分提取到 mixin 中，只要引入 mixin ，就能在页面中直接调用。
 
-#### html :
+** html :**
 
 在页面调用 checkPermission 方法，如果没有权限，则返回 false，对应的 html 不渲染。
 
@@ -214,7 +214,7 @@ export default {
 </div>
 ```
 
-#### javascript :
+**javascript :**
 
 在 javascript 中引入 checkPermissionMixin:
 
@@ -380,7 +380,7 @@ function normalizeNamespace(fn) {
 }
 ```
 
-normalizeNamespace ，接收一个 fn 回调作为参数，也就是 mapState 传入的回调函数。
+normalizeNamespace 函数接收一个 fn 回调作为参数，也就是 mapState 传入的回调函数。
 
 ```js
 ;(namespace, map) => {
@@ -456,7 +456,7 @@ function getModuleByNamespace(store, helper, namespace) {
 ```
 
 函数开始申明 module 变量，然后根据 namespace 从 `store._modulesNamespaceMap` 取出对应模块，
-`_modulesNamespaceMap` 这个变量是在 Store 类中，调用 installModule 时候保存所以有命名空间模块的变量。
+`_modulesNamespaceMap` 这个变量是在 Store 类中，调用 installModule 时候保存所以所有命名空间模块的变量。
 
 判断非生产环境并且没有对应模块，抛出异常，最后将 module 变量返回。
 
@@ -563,7 +563,7 @@ export const mapGetters = normalizeNamespace((namespace, getters) => {
 
 我看来看看传入 normalizeNamespace 的回调函数。
 
-首先也是申明 res 空对象，经过 normalizeMap 函数处理后的 getters 调用 forEach 循环处理，在 forEach 的回调函数中， 使用解构取出 key 和 value，每一次循环就以 key 为键、mappedGetter 函数为 value 存入 res 对象，这里会将 val 赋值成 namespace + val，如果有命名空间，此时的 val 应该是类似这样的: cart/cartProducts。
+首先也是申明 res 空对象，经过 normalizeMap 函数处理后的 getters 调用 forEach 循环处理，在 forEach 的回调函数中， 使用解构取出 key 和 value，每一次循环就以 key 为键、mappedGetter 函数为 value 存入 res 对象，这里会将 val 赋值成 namespace + val，如果有命名空间，此时的 val 应该是类似这样的: `cart/cartProducts` 。
 
 在 mappedGetter 函数中，首先判断如果有 namespace 并且调用 getModuleByNamespace 函数没有匹配到对应模块就直接 return。
 
@@ -671,6 +671,6 @@ export default {
 
 到此 `helpers.js` 结束。
 
-[1]:	https://vuex.vuejs.org/zh/
-[2]:	https://github.com/zhanghao-zhoushan/vue-helpers
-[3]:	https://zhanghao-zhoushan.github.io/vue-helpers/dist/index.html#/store
+[1]: https://vuex.vuejs.org/zh/
+[2]: https://github.com/zhanghao-zhoushan/vue-helpers
+[3]: https://zhanghao-zhoushan.github.io/vue-helpers/dist/index.html#/store
