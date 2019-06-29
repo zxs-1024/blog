@@ -7,6 +7,7 @@
 - [vue mixins 让组件显得不再臃肿](https://github.com/zhanghao-zhoushan/blog/blob/master/content/vue-mixins.md)
 - [vue-router 的导航守卫](https://github.com/zhanghao-zhoushan/blog/blob/master/content/vue-router-guard.md)
 - [vuex 辅助工具函数的实践与解析](https://github.com/zhanghao-zhoushan/blog/blob/master/content/vuex-helpers.md)
+- [vue 项目规范](https://github.com/zhanghao-zhoushan/blog/blob/master/content/vue-standard.md)
 
 ### React
 
