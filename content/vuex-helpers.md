@@ -672,3 +672,56 @@ export default {
 简化了重复写入命名空间。
 
 到此 `helpers.js` 结束。
+
+## 一些小问题
+
+这是一个小伙伴问我的，下面是我的理解：
+
+### mapState 和 mapGetters 有什么不同，各自适用什么场景 ?
+
+我们先来明确一下概念：
+
+- mapGetters 辅助函数将 store 中的 getter 映射到 computed；
+- mapState 辅助函数将 store 中对应的属性映射到 computed；
+
+归根到底，其实是 state 和 getters 的区别：state 是一个以 key、value 的形式储存状态的对象，而 getters 则是 key: fn 形式的对象，fn 就类似 *state => state.userInfo*：
+
+```js
+const getters = {
+  userInfo: state => state.userInfo
+}
+```
+
+当我们在组件或者页面中获取 userInfo，我们可以通过 mapGetters:
+
+```js
+export default {
+  computed: {
+  	...mapGetters(['userInfo'])
+  }
+}
+```
+
+也可以通过 mapState：
+
+```js
+export default {
+  computed: {
+    ...mapState({
+      userInfo: : state => state.userInfo
+    })
+  }
+}
+```
+
+相比较来说 mapGetters 的代码更为简洁。
+
+总结一下：
+
+mapGetters 其实是将重复的取值行为抽象到 mapGetters 中，而我们能够通过更少的代码得到相同的作用，但是如果这个取值只是出现一次，没有必要通过 mapGetters，我们就可以用 mapState 。
+
+### 在项目中，一些与后端交互的代码，一般是放在 action 里面好些，还是放在 vue 文件处理好呢 ？
+
+这个一般来说，我会把业务代码放到 vue 文件中，由于业务的特殊和多变性，代码往往是不可复用的。但是如果有一业务代码可以复用，你也可以尝试放到 action 中，记得确保复用的代码不会改动。
+
+但是有一些关于用户信息、权限以及项目中有很多页面会用到的数据，我会通过 mapAction 去获取，然后需要获取对象数据的时候，通过 mapGetters 获取。

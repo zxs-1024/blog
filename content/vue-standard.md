@@ -1,10 +1,12 @@
 ---
-title: vue 项目规范
+title: vue 更舒适的开发环境
 date: '2019-06-29'
-spoiler:  关于 Vue 项目的一些规范整理
+spoiler:  vue 更舒适的开发环境，统一 vue 编码规范、VSCode 配置、Snippets。
 ---
 
 ## Vue 项目规范整理
+
+团队能够指定一套合适的代码规范，在开发过程中无疑是非常舒适的。
 
 ### 风格指南
 
