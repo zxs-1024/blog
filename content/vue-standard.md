@@ -24,11 +24,9 @@ spoiler:  关于 Vue 项目的一些规范整理
   "editor.fontSize": 16,
   "editor.fontFamily": "DankMono, OperatorMono, Fira Code",
   "editor.fontWeight": "600",
-  // 颜色主题
   "workbench.colorTheme": "Atom One Dark",
-  // 图标主题
   "workbench.iconTheme": "material-icon-theme",
-  // Tab 等于的空格数
+  // Tab等于的空格数
   "editor.tabSize": 2,
   // 是否显示分号
   "prettier.semi": false,
@@ -42,9 +40,8 @@ spoiler:  关于 Vue 项目的一些规范整理
   "files.associations": {
     "*.vue": "vue"
   },
-  // vetur 格式化 html 方式
+  // vetur格式化方式
   "vetur.format.defaultFormatter.html": "js-beautify-html",
-  // vetur 格式化 js 方式
   "vetur.format.defaultFormatter.js": "vscode-typescript",
   // 函数参数括号前的空格
   "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
@@ -70,7 +67,7 @@ spoiler:  关于 Vue 项目的一些规范整理
     "**/.settings": true,
     "**/.factorypath": true
   },
-  // 是否展开 Emmet 缩写
+  // 是否展开Emmet缩写
   "emmet.triggerExpansionOnTab": true,
   "explorer.confirmDelete": false,
   "git.enableSmartCommit": true,
@@ -78,7 +75,6 @@ spoiler:  关于 Vue 项目的一些规范整理
   "leetcode.endpoint": "leetcode-cn",
   "leetcode.defaultLanguage": "javascript",
   "terminal.integrated.rendererType": "canvas",
-  // 自动安装扩展
   "extensions.autoUpdate": true,
   "breadcrumbs.enabled": true,
   "[jsonc]": {
@@ -94,7 +90,9 @@ spoiler:  关于 Vue 项目的一些规范整理
 
 配置 vue snippets
 
-option + cmd + p => snippets => vue.json
+1. `option + cmd + p` 打开命令面板
+2. 输入 snippets 选择 Configure User Snippets
+3. 搜索 vue，选择 vue.json
 
 ```json
 {
