@@ -1,9 +1,3 @@
----
-title: Mac 键盘与鼠标的映射
-date: '2019-01-31'
-spoiler: 关于 FILCO Minila Air 与 微软 Sculpt 人体工学鼠标。
----
-
 # Mac 键盘与鼠标的映射
 
 ## Filco 67 映射

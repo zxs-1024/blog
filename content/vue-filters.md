@@ -1,12 +1,6 @@
----
-title: vue filter 源码浅析
-date: '2019-07-01'
-spoiler: 在 Vue.js 中允许你自定义过滤器，我们可以用 filter 来格式化一些常见的文本。
----
+# Vue filter 源码浅析
 
-## Vue filter 源码浅析
-
-### filter 注册 && 使用
+## filter 注册 && 使用
 
 在 Vue.js 中允许你自定义过滤器，我们可以用 filter 来格式化一些常见的文本，在项目中我们会这样使用 filter :
 
@@ -48,7 +42,7 @@ filters: {
 var myFilter = Vue.filter('format')
 ```
 
-### filter 初始化
+## filter 初始化
 
 filter 初始化是在 Vue 构造函数实例化的时候：
 

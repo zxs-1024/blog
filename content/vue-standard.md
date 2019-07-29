@@ -1,25 +1,19 @@
----
-title: vue 更舒适的开发环境
-date: '2019-06-29'
-spoiler:  vue 更舒适的开发环境，统一 vue 编码规范、VSCode 配置、Snippets。
----
-
-## Vue 项目规范整理
+# vue 更舒适的开发环境
 
 团队能够指定一套合适的代码规范，在开发过程中无疑是非常舒适的。
 
-### 风格指南
+## 风格指南
 
 - [Vue.js 风格指南](https://cn.vuejs.org/v2/style-guide/index.html)
 - [Vant 风格指南](https://youzan.github.io/vant/#/zh-CN/style-guide)
 - [Vue.js 组件编码规范](https://github.com/pablohpsilva/vuejs-component-style-guide/blob/master/README-CN.md)
 
-### VSCode 插件
+## VSCode 插件
 
 - Vetur
 - vueHelper
 
-#### settings.json
+### settings.json
 
 ```json
 {
@@ -88,7 +82,7 @@ spoiler:  vue 更舒适的开发环境，统一 vue 编码规范、VSCode 配置
 }
 ```
 
-### use snippets
+## use snippets
 
 配置 vue snippets
 
