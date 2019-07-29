@@ -1,5 +1,5 @@
 ---
-title: Vue filter 源码浅析
+title: vue filter 源码浅析
 date: '2019-07-01'
 spoiler: 在 Vue.js 中允许你自定义过滤器，我们可以用 filter 来格式化一些常见的文本。
 ---
