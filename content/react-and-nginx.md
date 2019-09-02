@@ -1,31 +1,25 @@
-# react 项目在 nginx 的部署
+# react history mode 在 nginx 的部署
 
-部署后的地址为 [https://www.zhanghao-zhoushan.cn/bing-collect](https://www.zhanghao-zhoushan.cn/bing-collect)
+react-router官方推荐，需要服务器支持，因为是 SPA 项目，url 切换时需要服务器始终返回 `index.html`。
+
+当前项目打包后的文件在 `/var/www/bing-collect` 文件夹下。
+
+部署后的地址为 [https://www.zhanghao-zhoushan.cn/bing-collect/](https://www.zhanghao-zhoushan.cn/bing-collect/)
 
 ## 部署在根目录
 
-### 项目打包
-
-```bash
-yarn build
-```
-
-## 部署在子目录
-
 ### 设置 homepage
 
-这里会设置 homepage 为 `/bing-collect` 。
+设置 `package.json` 的 homepage 为 `.` 。
 
 ```json
 {
-  ...
   "homepage": ".",
-  ...
 }
 
 ```
 
-在通过 `yarn build` 打包后构建的 `index.html` 关于静态资源的引用是这样的：
+运行 `yarn build` 命令后构建的 `index.html` 关于静态资源的引用是这样的：
 
 ```html
 <!DOCTYPE html>
@@ -42,11 +36,26 @@ yarn build
 </html>
 ```
 
-我们会以相对路径的形式引用静态资源。
+这里会以相对路径的形式引用静态资源。
+
+### nginx 配置
+
+设置访问页面时始终返回 `index.html` 。
+
+```conf
+location / {
+  root /var/www/bing-collect;
+  try_files $uri /index.html;
+}
+```
+
+## 部署在子目录
+
+如果需要部署在子目录，例如 `http://localhost/bing-collect` 类似的路径。
 
 ### 设置 basename
 
-在这里我们使用了 `BrowserRouter` 的 history 模式，设置 basename 为 `/bing-collect` 。
+需要设置 basename 为 `/bing-collect` 。
 
 ```tsx
 import * as React from 'react';
@@ -55,9 +64,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 const App: React.FC = () => {
   return (
     <Router basename="/bing-collect">
-      <MainLayout>
-        <Route exact path="/" component={Container} />
-      </MainLayout>
+      <Route exact path="/" component={Container} />
     </Router>
   );
 };
@@ -65,18 +72,15 @@ const App: React.FC = () => {
 
 ### 设置 homepage
 
-这里会设置 homepage 为 `/bing-collect` 。
+设置 `package.json` 的 homepage 为 `/bing-collect` 。
 
 ```json
 {
-  ...
   "homepage": "/bing-collect",
-  ...
 }
-
 ```
 
-在通过 `yarn build` 打包后构建的 `index.html` 关于静态资源的引用是这样的：
+运行 `yarn build` 命令后构建的 `index.html` 关于静态资源的引用是这样的：
 
 ```html
 <!DOCTYPE html>
@@ -99,7 +103,19 @@ const App: React.FC = () => {
 </html>
 ```
 
-我们会以绝对路径的形式引用静态资源。
+这里会以绝对路径的形式引用静态资源。
+
+### nginx 配置
+
+访问 `bing-collect` 子目录时，重定向到 `index.html` 。
+
+```conf
+# 重定向到 index.html
+location /bing-collect/ {
+  root  /var/www/;
+  try_files $uri $uri/ /bing-collect/index.html /var/www/bing-collect/index.html;
+}
+```
 
 ## nginx 的一些知识点
 
