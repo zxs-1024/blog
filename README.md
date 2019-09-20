@@ -9,6 +9,8 @@
 - [vue 更舒适的开发环境](https://github.com/zhanghao-zhoushan/blog/blob/master/content/vue-standard.md)
 - [vue nextTick 源码浅析](https://github.com/zhanghao-zhoushan/blog/blob/master/content/vue-next-tick.md)
 - [vuex 入口文件](https://github.com/zhanghao-zhoushan/blog/blob/master/content/vuex-init.md)
+- [vuex class Store](https://github.com/zhanghao-zhoushan/blog/blob/master/content/vuex-store.md)
+- [vuex class ModuleCollection and class Module](https://github.com/zhanghao-zhoushan/blog/blob/master/content/vuex-class.md)
 - [vuex 辅助工具函数的实践与解析](https://github.com/zhanghao-zhoushan/blog/blob/master/content/vuex-helpers.md)
 
 ### React
