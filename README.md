@@ -12,6 +12,7 @@
 - [vuex class Store](https://github.com/zhanghao-zhoushan/blog/blob/master/content/vuex-store.md)
 - [vuex class ModuleCollection and class Module](https://github.com/zhanghao-zhoushan/blog/blob/master/content/vuex-class.md)
 - [vuex 辅助工具函数的实践与解析](https://github.com/zhanghao-zhoushan/blog/blob/master/content/vuex-helpers.md)
+- [vuex 工具函数](https://github.com/zhanghao-zhoushan/blog/blob/master/content/vuex-util.md)
 
 ### React
 
