@@ -14,6 +14,7 @@
 - [vuex 辅助工具函数的实践与解析](https://github.com/zhanghao-zhoushan/blog/blob/master/content/vuex-helpers.md)
 - [vuex 工具函数](https://github.com/zhanghao-zhoushan/blog/blob/master/content/vuex-util.md)
 - [vuex 插件](https://github.com/zhanghao-zhoushan/blog/blob/master/content/vuex-devtool.md)
+- [vuex 问题总结](https://github.com/zhanghao-zhoushan/blog/blob/master/content/vuex-questions.md)
 
 ### React
 
