@@ -28,6 +28,7 @@
 ### JavaScript
 
 - [LazyMan 的两种实现](https://github.com/zhanghao-zhoushan/blog/blob/master/content/LazyMan.md)
+- [snabbdom 的源码注释](https://github.com/zhanghao-zhoushan/snabbdom/tree/master/src)
 
 ### 前端文章集锦
 
