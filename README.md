@@ -25,10 +25,6 @@
 - [Bing Pictures use typescript](https://github.com/zhanghao-zhoushan/bing-app)
 - [react 项目在 nginx 的部署](https://github.com/zhanghao-zhoushan/blog/blob/master/content/react-and-nginx.md)
 
-### 小程序
-
-- [垃圾分类 - taro 多终端小程序](https://github.com/CherryFreedom/classifieLeseCloud)
-
 ### JavaScript
 
 - [LazyMan 的两种实现](https://github.com/zhanghao-zhoushan/blog/blob/master/content/LazyMan.md)
