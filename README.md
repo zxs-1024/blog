@@ -6,6 +6,10 @@
 
 - [LeetCode-Notes](https://github.com/zhanghao-zhoushan/LeetCode-Notes)
 
+### Webpack
+
+- [Webpack HMR](https://slides.com/hao-zhang/deck-57dcb4)
+
 ### Vue
 
 - [vue mixins 让组件显得不再臃肿](https://github.com/zhanghao-zhoushan/blog/blob/master/content/vue-mixins.md)
