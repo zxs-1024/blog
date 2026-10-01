@@ -1,3 +1,5 @@
+
+
 ## blog
 
 **纸上得来终觉浅， 绝知此事要躬行**
@@ -42,4 +44,4 @@
 
 ### Other
 
-- [前端代码规范](https://github.com/zhanghao-zhoushan/blog/blob/master//content/javascript-standard.md)
+- [前端代码规范](https://github.com/zhanghao-zhoushan/blog/blob/master/content/javascript-standard.md)
